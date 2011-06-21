@@ -1,0 +1,588 @@
+#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\language british
+\inputencoding auto
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\cite_engine basic
+\use_bibtopic false
+\paperorientation portrait
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\author "" 
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout Title
+PyModule
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+This package is based on Modules (
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+http://modules.sourceforge.net/
+\end_layout
+
+\end_inset
+
+).
+ Both Modules and PyModule allow packages to be installed in separate directorie
+s from each other and 'loaded' into the users environment on demand.
+ They also allow multiple versions of the same package to be installed concurren
+tly and a particular version loaded.
+\end_layout
+
+\begin_layout Standard
+PyModule attempts to address some of the limitations of the original design,
+ not least its dependence on TCL.
+ I have also tried to automate some of the more repetitive aspects of creating
+ modules.
+\end_layout
+
+\begin_layout Section
+Use
+\end_layout
+
+\begin_layout Subsection
+Installation
+\end_layout
+
+\begin_layout Standard
+First untar the distribution.
+ It is usually wisest to install separate from your Python distribution
+ like this:
+\end_layout
+
+\begin_layout LyX-Code
+export PYMODULE_ROOT=/opt/pymodule
+\end_layout
+
+\begin_layout LyX-Code
+python setup.py install --prefix=$PYMODULE_ROOT
+\end_layout
+
+\begin_layout LyX-Code
+export PATH=$PYMODULE_ROOT/bin:$PATH
+\end_layout
+
+\begin_layout LyX-Code
+export PYTHONPATH=$PYMODULE_ROOT/lib/python2.X/site-packages
+\end_layout
+
+\begin_layout Standard
+Where 'python2.X' is the version of your Python distribution.
+\end_layout
+
+\begin_layout Subsubsection
+Where Python isn't available (or is an older version)
+\end_layout
+
+\begin_layout Standard
+In the case where there is no Python available, and you need to load it
+ with PyModule, a 'frozen' version of PyModule needs to be prepared.
+ More to come on this...
+\end_layout
+
+\begin_layout Standard
+In the case where the system has an older version of Python available (say
+ 2.4) and you want to load a newer version using PyModule (say 2.6), some
+ care is required for setting up paths.
+ When you do the install (as above) with the system python (2.4), the site
+ packages directory will be called $PYMODULE_ROOT/lib/python
+\series bold
+2.4
+\series default
+/site-packages.
+ This is fine when using the system Python.
+ However, if you were to load Python 2.6 with PyModules, it won't be able
+ to find it's components because it will be looking in $PYMODULE_ROOT/lib/python
+\series bold
+2.6
+\series default
+/site-packages.
+ The best workaround is to create a link called $PYMODULE_ROOT/lib/python
+\series bold
+2.6
+\series default
+
+\begin_inset space ~
+\end_inset
+
+pointing to $PYMODULE_ROOT/lib/python
+\series bold
+2.4
+\series default
+.
+ Also, it pays to check that distutils hasn't re-written the first line
+ of pymodulecmd.py.
+\end_layout
+
+\begin_layout Standard
+On a related note, it is best to load the newer version of Python first
+ and separately from other Python packages, otherwise the wrong site packages
+ directory will be used.
+\end_layout
+
+\begin_layout Subsection
+Initialisation
+\end_layout
+
+\begin_layout Standard
+For tcsh users:
+\end_layout
+
+\begin_layout LyX-Code
+source $PYMODULE_ROOT/init/tcsh
+\end_layout
+
+\begin_layout Standard
+For bash users
+\end_layout
+
+\begin_layout LyX-Code
+.
+ $PYMODULE_ROOT/init/bash
+\end_layout
+
+\begin_layout Standard
+Your $PYMODULEPATH variable needs to be set to the location of your module
+ files.
+ See Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:modfiles"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Subsection
+Commands
+\end_layout
+
+\begin_layout Standard
+Once PyModules is initialised, the following commands will be available:
+\end_layout
+
+\begin_layout LyX-Code
+pymodule list
+\end_layout
+
+\begin_layout Standard
+Displays the currently loaded modules
+\end_layout
+
+\begin_layout LyX-Code
+pymodule avail
+\end_layout
+
+\begin_layout Standard
+Displays all the modules that are available.
+ Normally various versions of each module are available.
+ The default version is marked with (default).
+\end_layout
+
+\begin_layout LyX-Code
+pymodule load module/version
+\end_layout
+
+\begin_layout Standard
+Loads a module.
+ If version not specified, default is used.
+\end_layout
+
+\begin_layout LyX-Code
+pymodule unload module/version
+\end_layout
+
+\begin_layout Standard
+Unloads a currently loaded module
+\end_layout
+
+\begin_layout LyX-Code
+pymodule disp module/version
+\end_layout
+
+\begin_layout Standard
+Displays what a module does (without loading it).
+ If version not specified, default is used.
+\end_layout
+
+\begin_layout LyX-Code
+pymodule swap module/version module/version
+\end_layout
+
+\begin_layout Standard
+Switches between versions of a module.
+\end_layout
+
+\begin_layout Subsection
+Calling from Python
+\end_layout
+
+\begin_layout LyX-Code
+from pymodule import pyutils
+\end_layout
+
+\begin_layout Standard
+Currently there are 2 methods: pyutils.load() and pyutils.unload() which take
+ a single string with a module name, or a list.
+\end_layout
+
+\begin_layout Section
+How to write module files
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:modfiles"
+
+\end_inset
+
+The $PYMODULEPATH variable must be set to a semi-colon separated list of
+ directories.
+ Each of these directories is searched for PyModule files.
+\end_layout
+
+\begin_layout Subsection
+Directory Layout
+\end_layout
+
+\begin_layout Standard
+Files under each directory in $PYMODULEPATH are treated as PyModule files
+ if the first line starts with '#%PyModule1.0'.
+ There are two sorts of PyModule files: versioned and unversioned.
+ Unversioned files sit at the root of the directory.
+ A file here will show up as an available module.
+ Using this type is not recommended because the whole idea of PyModules
+ is to have multiple versions of software installed.
+ However in some instances there is only ever one version and this does
+ make sense.
+\end_layout
+
+\begin_layout Standard
+The second type is a versioned PyModule file.
+ These live in subdirectories immediately below the root of the directory
+ and these directories usually have the same name as the software they load.
+ They are normally named to match the version of the software ie python/2.6.5.
+ There can be many of these files, one per version installed.
+ The default version is the first, or dictated by the version.py file if
+ installed (see below).
+ If the version of the module to be loaded is not specified by the user,
+ it is this default version that is used.
+ The user can of course override this and specify a particular version they
+ wish to use.
+\end_layout
+
+\begin_layout Standard
+For example, for the directory layout below, there are 2 PyModules, one
+ called 'unversionedsw' that is not versioned.
+ The second ('python') has 3 versions that can be chosen between.
+\end_layout
+
+\begin_layout LyX-Code
+$PYMODULEPATH=/opt/modules
+\end_layout
+
+\begin_layout LyX-Code
+/opt/modules/unversionedsw
+\end_layout
+
+\begin_layout LyX-Code
+/opt/modules/python/2.5.1
+\end_layout
+
+\begin_layout LyX-Code
+/opt/modules/python/2.6.0
+\end_layout
+
+\begin_layout LyX-Code
+/opt/modules/python/2.6.5
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout Subsection
+File contents
+\end_layout
+
+\begin_layout Standard
+PyModule files are just fragments of Python so can contain any valid Python
+ statements.
+ There are a number of functions meaningful in a PyModules context.
+ The following discusses the operations that are performed for each function
+ when a module is loaded.
+ It is worth noting the opposite is performed when modules are unloaded
+ (ie variables unset etc).
+ 
+\end_layout
+
+\begin_layout LyX-Code
+module.setAll(path)
+\end_layout
+
+\begin_layout Standard
+Searches the path given and sets the following variables in certain conditions,
+ where MODNAME is the name of the PyModule in capitals (ie PYTHON)
+\end_layout
+
+\begin_layout Itemize
+$MODNAME_ROOT is set to the root path specified
+\end_layout
+
+\begin_layout Itemize
+If it exists and contains files, the 'bin' subdirectory is added to the
+ $PATH and put into the $MODNAME_BIN_PATH variable
+\end_layout
+
+\begin_layout Itemize
+If it exists and contains files, the 'lib' subdirectory is added to the
+ $LD_LIBRARY_PATH (or whatever variable makes sense for the current OS)
+ and put into the $MODNAME_LIB_PATH variable
+\end_layout
+
+\begin_layout Itemize
+If it exists and contains files or sub directories, the 'include' subdirectory
+ is put into the $MODNAME_INCLUDE_PATH variable
+\end_layout
+
+\begin_layout Itemize
+If either the 'man' subdirectory or 'share/man' subdirectory exists and
+ contains files it is added to the $MANPATH and put into the $MODNAME_MAN_PATH
+ variable.
+\end_layout
+
+\begin_layout Itemize
+If the 'lib/pythonX.X/site-packages' directory exists (where X.X is the version
+ of Python PyModules is running) and contains files or subdirectories, then
+ it is added to the $PYTHONPATH and put into the $MODNAME_PYTHON_PATH variable.
+\end_layout
+
+\begin_layout Standard
+Normally, setAll() is the only method that needs to be called as it handles
+ most common situations.
+ 
+\end_layout
+
+\begin_layout LyX-Code
+module.setBin(binpath)
+\end_layout
+
+\begin_layout Standard
+Adds binpath to the $PATH and put into $MODNAME_BIN_PATH
+\end_layout
+
+\begin_layout LyX-Code
+module.setLib(libpath)
+\end_layout
+
+\begin_layout Standard
+Adds libpath to the $LD_LIBRARY_PATH (or whatever variable makes sense for
+ the current OS) and put into $MODNAME_LIB_PATH.
+\end_layout
+
+\begin_layout LyX-Code
+module.setMan(manpath)
+\end_layout
+
+\begin_layout Standard
+Adds manpath to the $MANPATH and put into $MODNAME_MAN_PATH
+\end_layout
+
+\begin_layout LyX-Code
+module.setInclude(includepath)
+\end_layout
+
+\begin_layout Standard
+Puts includepath into $MODNAME_INCLUDE_PATH
+\end_layout
+
+\begin_layout LyX-Code
+module.setPython(pythonpath)
+\end_layout
+
+\begin_layout Standard
+Adds pythonpath to $PYTHONPATH and put into $MODNAME_PYTHON_PATH
+\end_layout
+
+\begin_layout LyX-Code
+module.load(modnames)
+\end_layout
+
+\begin_layout Standard
+Load specified PyModule(s).
+ Use of this function is not recommended as it makes it difficult to manage
+ dependencies.
+ It is better to force the user to load necessary PyModules themselves with
+ the module.prereq function.
+\end_layout
+
+\begin_layout LyX-Code
+module.swap(old,new)
+\end_layout
+
+\begin_layout Standard
+Unloads module given in old and replaces it with that contained in new.
+ See comments above on load().
+\end_layout
+
+\begin_layout LyX-Code
+module.prereq(modnames)
+\end_layout
+
+\begin_layout Standard
+Checks at least one of the specified modules is loaded.
+ If you want to check a number of modules is loaded, then call this function
+ separately once for each module.
+ If the module isn't loaded, an error is returned to the user and nothing
+ is loaded.
+\end_layout
+
+\begin_layout LyX-Code
+module.conflict(modnames)
+\end_layout
+
+\begin_layout Standard
+Raises an error if one of the specified modules is loaded.
+ 
+\end_layout
+
+\begin_layout LyX-Code
+module.whatis(description)
+\end_layout
+
+\begin_layout Standard
+Sets the description of the modules.
+ This is only seen when doing a 'pymodule disp'
+\end_layout
+
+\begin_layout LyX-Code
+module.setVar(value,varname,addpkgname=False)
+\end_layout
+
+\begin_layout Standard
+Sets the environment variable named in varname to value.
+ If addpkgname is True, then MODNAME_ is prepended to the varname.
+\end_layout
+
+\begin_layout LyX-Code
+module.setPath(path,varname)
+\end_layout
+
+\begin_layout Standard
+Prepends path onto environment variable specified in varname.
+ Designed to use with $PATH and other environment variables that contain
+ a list of paths.
+\end_layout
+
+\begin_layout Subsubsection
+Version files
+\end_layout
+
+\begin_layout Standard
+If present, a file with the name of 'version.py' in a versioned PyModules
+ directory is parsed to choose which version is the default.
+ This file needs to start with '#%PyModule1.0' and can contain any number
+ of Python statements.
+ It need only contain one other line that sets the Python variable 'version'
+ to a string containing the version number that should be made the default.
+ Here is an example:
+\end_layout
+
+\begin_layout LyX-Code
+#%PyModule1.0
+\end_layout
+
+\begin_layout LyX-Code
+version = '1.0.0'
+\end_layout
+
+\begin_layout Subsubsection
+Installation guide
+\end_layout
+
+\begin_layout Standard
+When configuring software, use the prefix option to install the software
+ in a uniquely versioned directory.
+ For autoconf software:
+\end_layout
+
+\begin_layout LyX-Code
+./configure --prefix=/opt/python/2.6.5
+\end_layout
+
+\begin_layout Standard
+For python software
+\end_layout
+
+\begin_layout LyX-Code
+python setup.py install --prefix=/opt/matplotlib/1.0.0
+\end_layout
+
+\begin_layout Standard
+Then create a PyModule file to match
+\end_layout
+
+\begin_layout Subsection
+mod2pymod.py
+\end_layout
+
+\begin_layout Standard
+Utility to ease transition from traditional modules to PyModules.
+ More to come...
+\end_layout
+
+\begin_layout Subsection
+Configuration
+\end_layout
+
+\begin_layout Standard
+The file $PYMODULE_ROOT/lib/python2.X/site-packages/pymodule/pymodconf.py
+ contains a number of settings.
+ Changing this file will allow you to override almost any aspect of PyModules.
+\end_layout
+
+\end_body
+\end_document

@@ -1,0 +1,13 @@
+setup.py
+init/bash
+init/tcsh
+scripts/envmastercmd.py
+scripts/mod2envmaster.py
+src/envmaster/__init__.py
+src/envmaster/envmasterconf.py
+src/envmaster/envmasterenv.py
+src/envmaster/envmasterexceptions.py
+src/envmaster/envmasterfile.py
+src/envmaster/envmasterformat.py
+src/envmaster/envmastershells.py
+src/envmaster/pyutils.py

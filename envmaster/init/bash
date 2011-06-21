@@ -1,0 +1,10 @@
+
+# check we can find it in the PATH
+
+which envmastercmd.py > /dev/null
+if [ $? -ne 0 ]; then
+    echo "Cannot find envmastercmd.py"
+fi
+
+envmaster() { eval `envmastercmd.py bash $*`; }
+export -f envmaster

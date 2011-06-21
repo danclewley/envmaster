@@ -1,0 +1,38 @@
+
+set prefix=""
+set postfix=""
+
+if ( $?histchars ) then
+  set histchar = `echo $histchars | cut -c1`
+  set _histchars = $histchars
+
+  set prefix  = 'unset histchars;'
+  set postfix = 'set histchars = $_histchars;'
+else
+  set histchar = \!
+endif
+
+if ($?prompt) then
+  set prefix  = "$prefix"'set _prompt="$prompt";set prompt="";'
+  set postfix = "$postfix"'set prompt="$_prompt";unset _prompt;'
+endif
+
+if ($?noglob) then
+  set prefix  = "$prefix""set noglob;"
+  set postfix = "$postfix""unset noglob;"
+endif
+set postfix = "set _exit="'$status'"; $postfix; test 0 = "'$_exit;'
+
+# check we can find it in the PATH
+
+which envmastercmd.py > /dev/null
+if ( $status != 0 ) then
+    echo "Cannot find envmastercmd.py"
+endif
+
+alias envmaster $prefix'eval `envmastercmd.py tcsh '$histchar'*`; '$postfix
+
+unset exec_prefix
+unset prefix
+unset postfix
+
