@@ -1,21 +1,29 @@
-#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
-\lyxformat 345
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
 \begin_document
 \begin_header
 \textclass article
 \use_default_options true
+\maintain_unincluded_children false
 \language british
+\language_package default
 \inputencoding auto
+\fontencoding global
 \font_roman default
 \font_sans default
 \font_typewriter default
 \font_default_family default
+\use_non_tex_fonts false
 \font_sc false
 \font_osf false
 \font_sf_scale 100
 \font_tt_scale 100
 
 \graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
 \paperfontsize default
 \spacing single
 \use_hyperref false
@@ -23,27 +31,37 @@
 \use_geometry false
 \use_amsmath 1
 \use_esint 1
+\use_mhchem 1
+\use_mathdots 1
 \cite_engine basic
 \use_bibtopic false
+\use_indices false
 \paperorientation portrait
+\suppress_date false
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
 \secnumdepth 3
 \tocdepth 3
 \paragraph_separation indent
-\defskip medskip
+\paragraph_indentation default
 \quotes_language english
 \papercolumns 1
 \papersides 1
 \paperpagestyle default
 \tracking_changes false
 \output_changes false
-\author "" 
-\author "" 
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
 \end_header
 
 \begin_body
 
 \begin_layout Title
-PyModule
+EnvMaster
 \end_layout
 
 \begin_layout Section
@@ -63,14 +81,14 @@ http://modules.sourceforge.net/
 \end_inset
 
 ).
- Both Modules and PyModule allow packages to be installed in separate directorie
-s from each other and 'loaded' into the users environment on demand.
+ Both Modules and EnvMaster allow packages to be installed in separate directori
+es from each other and 'loaded' into the users environment on demand.
  They also allow multiple versions of the same package to be installed concurren
 tly and a particular version loaded.
 \end_layout
 
 \begin_layout Standard
-PyModule attempts to address some of the limitations of the original design,
+EnvMaster attempts to address some of the limitations of the original design,
  not least its dependence on TCL.
  I have also tried to automate some of the more repetitive aspects of creating
  modules.
@@ -91,19 +109,19 @@ First untar the distribution.
 \end_layout
 
 \begin_layout LyX-Code
-export PYMODULE_ROOT=/opt/pymodule
+export EnvMaster_ROOT=/opt/EnvMaster
 \end_layout
 
 \begin_layout LyX-Code
-python setup.py install --prefix=$PYMODULE_ROOT
+python setup.py install --prefix=$EnvMaster_ROOT
 \end_layout
 
 \begin_layout LyX-Code
-export PATH=$PYMODULE_ROOT/bin:$PATH
+export PATH=$EnvMaster_ROOT/bin:$PATH
 \end_layout
 
 \begin_layout LyX-Code
-export PYTHONPATH=$PYMODULE_ROOT/lib/python2.X/site-packages
+export PYTHONPATH=$EnvMaster_ROOT/lib/python2.X/site-packages
 \end_layout
 
 \begin_layout Standard
@@ -116,28 +134,29 @@ Where Python isn't available (or is an older version)
 
 \begin_layout Standard
 In the case where there is no Python available, and you need to load it
- with PyModule, a 'frozen' version of PyModule needs to be prepared.
+ with EnvMaster, a 'frozen' version of EnvMaster needs to be prepared.
  More to come on this...
 \end_layout
 
 \begin_layout Standard
 In the case where the system has an older version of Python available (say
- 2.4) and you want to load a newer version using PyModule (say 2.6), some
+ 2.4) and you want to load a newer version using EnvMaster (say 2.6), some
  care is required for setting up paths.
  When you do the install (as above) with the system python (2.4), the site
- packages directory will be called $PYMODULE_ROOT/lib/python
+ packages directory will be called $EnvMaster_ROOT/lib/python
 \series bold
 2.4
 \series default
 /site-packages.
  This is fine when using the system Python.
- However, if you were to load Python 2.6 with PyModules, it won't be able
- to find it's components because it will be looking in $PYMODULE_ROOT/lib/python
+ However, if you were to load Python 2.6 with EnvMasters, it won't be able
+ to find it's components because it will be looking in $EnvMaster_ROOT/lib/pytho
+n
 \series bold
 2.6
 \series default
 /site-packages.
- The best workaround is to create a link called $PYMODULE_ROOT/lib/python
+ The best workaround is to create a link called $EnvMaster_ROOT/lib/python
 \series bold
 2.6
 \series default
@@ -145,13 +164,13 @@ In the case where the system has an older version of Python available (say
 \begin_inset space ~
 \end_inset
 
-pointing to $PYMODULE_ROOT/lib/python
+pointing to $EnvMaster_ROOT/lib/python
 \series bold
 2.4
 \series default
 .
  Also, it pays to check that distutils hasn't re-written the first line
- of pymodulecmd.py.
+ of EnvMastercmd.py.
 \end_layout
 
 \begin_layout Standard
@@ -169,7 +188,7 @@ For tcsh users:
 \end_layout
 
 \begin_layout LyX-Code
-source $PYMODULE_ROOT/init/tcsh
+source $EnvMaster_ROOT/init/tcsh
 \end_layout
 
 \begin_layout Standard
@@ -178,11 +197,11 @@ For bash users
 
 \begin_layout LyX-Code
 .
- $PYMODULE_ROOT/init/bash
+ $EnvMaster_ROOT/init/bash
 \end_layout
 
 \begin_layout Standard
-Your $PYMODULEPATH variable needs to be set to the location of your module
+Your $EnvMasterPATH variable needs to be set to the location of your module
  files.
  See Section 
 \begin_inset CommandInset ref
@@ -200,11 +219,11 @@ Commands
 \end_layout
 
 \begin_layout Standard
-Once PyModules is initialised, the following commands will be available:
+Once EnvMasters is initialised, the following commands will be available:
 \end_layout
 
 \begin_layout LyX-Code
-pymodule list
+EnvMaster list
 \end_layout
 
 \begin_layout Standard
@@ -212,7 +231,7 @@ Displays the currently loaded modules
 \end_layout
 
 \begin_layout LyX-Code
-pymodule avail
+EnvMaster avail
 \end_layout
 
 \begin_layout Standard
@@ -222,7 +241,7 @@ Displays all the modules that are available.
 \end_layout
 
 \begin_layout LyX-Code
-pymodule load module/version
+EnvMaster load module/version
 \end_layout
 
 \begin_layout Standard
@@ -231,7 +250,7 @@ Loads a module.
 \end_layout
 
 \begin_layout LyX-Code
-pymodule unload module/version
+EnvMaster unload module/version
 \end_layout
 
 \begin_layout Standard
@@ -239,7 +258,7 @@ Unloads a currently loaded module
 \end_layout
 
 \begin_layout LyX-Code
-pymodule disp module/version
+EnvMaster disp module/version
 \end_layout
 
 \begin_layout Standard
@@ -248,7 +267,7 @@ Displays what a module does (without loading it).
 \end_layout
 
 \begin_layout LyX-Code
-pymodule swap module/version module/version
+EnvMaster swap module/version module/version
 \end_layout
 
 \begin_layout Standard
@@ -260,7 +279,7 @@ Calling from Python
 \end_layout
 
 \begin_layout LyX-Code
-from pymodule import pyutils
+from EnvMaster import pyutils
 \end_layout
 
 \begin_layout Standard
@@ -279,9 +298,9 @@ name "sec:modfiles"
 
 \end_inset
 
-The $PYMODULEPATH variable must be set to a semi-colon separated list of
+The $EnvMasterPATH variable must be set to a semi-colon separated list of
  directories.
- Each of these directories is searched for PyModule files.
+ Each of these directories is searched for EnvMaster files.
 \end_layout
 
 \begin_layout Subsection
@@ -289,19 +308,19 @@ Directory Layout
 \end_layout
 
 \begin_layout Standard
-Files under each directory in $PYMODULEPATH are treated as PyModule files
- if the first line starts with '#%PyModule1.0'.
- There are two sorts of PyModule files: versioned and unversioned.
+Files under each directory in $EnvMasterPATH are treated as EnvMaster files
+ if the first line starts with '#%EnvMaster1.0'.
+ There are two sorts of EnvMaster files: versioned and unversioned.
  Unversioned files sit at the root of the directory.
  A file here will show up as an available module.
- Using this type is not recommended because the whole idea of PyModules
+ Using this type is not recommended because the whole idea of EnvMasters
  is to have multiple versions of software installed.
  However in some instances there is only ever one version and this does
  make sense.
 \end_layout
 
 \begin_layout Standard
-The second type is a versioned PyModule file.
+The second type is a versioned EnvMaster file.
  These live in subdirectories immediately below the root of the directory
  and these directories usually have the same name as the software they load.
  They are normally named to match the version of the software ie python/2.6.5.
@@ -315,13 +334,13 @@ The second type is a versioned PyModule file.
 \end_layout
 
 \begin_layout Standard
-For example, for the directory layout below, there are 2 PyModules, one
+For example, for the directory layout below, there are 2 EnvMasters, one
  called 'unversionedsw' that is not versioned.
  The second ('python') has 3 versions that can be chosen between.
 \end_layout
 
 \begin_layout LyX-Code
-$PYMODULEPATH=/opt/modules
+$EnvMasterPATH=/opt/modules
 \end_layout
 
 \begin_layout LyX-Code
@@ -349,9 +368,9 @@ File contents
 \end_layout
 
 \begin_layout Standard
-PyModule files are just fragments of Python so can contain any valid Python
+EnvMaster files are just fragments of Python so can contain any valid Python
  statements.
- There are a number of functions meaningful in a PyModules context.
+ There are a number of functions meaningful in a EnvMasters context.
  The following discusses the operations that are performed for each function
  when a module is loaded.
  It is worth noting the opposite is performed when modules are unloaded
@@ -365,7 +384,7 @@ module.setAll(path)
 
 \begin_layout Standard
 Searches the path given and sets the following variables in certain conditions,
- where MODNAME is the name of the PyModule in capitals (ie PYTHON)
+ where MODNAME is the name of the EnvMaster in capitals (ie PYTHON)
 \end_layout
 
 \begin_layout Itemize
@@ -396,8 +415,9 @@ If either the 'man' subdirectory or 'share/man' subdirectory exists and
 
 \begin_layout Itemize
 If the 'lib/pythonX.X/site-packages' directory exists (where X.X is the version
- of Python PyModules is running) and contains files or subdirectories, then
- it is added to the $PYTHONPATH and put into the $MODNAME_PYTHON_PATH variable.
+ of Python EnvMasters is running) and contains files or subdirectories,
+ then it is added to the $PYTHONPATH and put into the $MODNAME_PYTHON_PATH
+ variable.
 \end_layout
 
 \begin_layout Standard
@@ -452,11 +472,11 @@ module.load(modnames)
 \end_layout
 
 \begin_layout Standard
-Load specified PyModule(s).
+Load specified EnvMaster(s).
  Use of this function is not recommended as it makes it difficult to manage
  dependencies.
- It is better to force the user to load necessary PyModules themselves with
- the module.prereq function.
+ It is better to force the user to load necessary EnvMasters themselves
+ with the module.prereq function.
 \end_layout
 
 \begin_layout LyX-Code
@@ -495,7 +515,7 @@ module.whatis(description)
 
 \begin_layout Standard
 Sets the description of the modules.
- This is only seen when doing a 'pymodule disp'
+ This is only seen when doing a 'EnvMaster disp'
 \end_layout
 
 \begin_layout LyX-Code
@@ -522,9 +542,9 @@ Version files
 \end_layout
 
 \begin_layout Standard
-If present, a file with the name of 'version.py' in a versioned PyModules
+If present, a file with the name of 'version.py' in a versioned EnvMasters
  directory is parsed to choose which version is the default.
- This file needs to start with '#%PyModule1.0' and can contain any number
+ This file needs to start with '#%EnvMaster1.0' and can contain any number
  of Python statements.
  It need only contain one other line that sets the Python variable 'version'
  to a string containing the version number that should be made the default.
@@ -532,7 +552,7 @@ If present, a file with the name of 'version.py' in a versioned PyModules
 \end_layout
 
 \begin_layout LyX-Code
-#%PyModule1.0
+#%EnvMaster1.0
 \end_layout
 
 \begin_layout LyX-Code
@@ -562,15 +582,15 @@ python setup.py install --prefix=/opt/matplotlib/1.0.0
 \end_layout
 
 \begin_layout Standard
-Then create a PyModule file to match
+Then create a EnvMaster file to match
 \end_layout
 
 \begin_layout Subsection
-mod2pymod.py
+mod2envmaster.py
 \end_layout
 
 \begin_layout Standard
-Utility to ease transition from traditional modules to PyModules.
+Utility to ease transition from traditional modules to EnvMasters.
  More to come...
 \end_layout
 
@@ -579,9 +599,9 @@ Configuration
 \end_layout
 
 \begin_layout Standard
-The file $PYMODULE_ROOT/lib/python2.X/site-packages/pymodule/pymodconf.py
+The file $EnvMaster_ROOT/lib/python2.X/site-packages/EnvMaster/envmasterconf.py
  contains a number of settings.
- Changing this file will allow you to override almost any aspect of PyModules.
+ Changing this file will allow you to override almost any aspect of EnvMaster.
 \end_layout
 
 \end_body
