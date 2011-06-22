@@ -8,7 +8,7 @@ modules.
 """
 
 import os
-#from .envmasterfile import EnvMasterFile
+from .envmasterfile import EnvMasterFile
 from . import envmasterconf
 from . import envmasterexceptions
 from . import envmastershells
