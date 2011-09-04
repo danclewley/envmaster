@@ -13,8 +13,8 @@ directly. Use the shellFromString() method.
 
 import os
 import sys
-from . import envmasterformat
-from . import envmasterconf
+import envmasterformat
+import envmasterconf
 
 def shellFromString(shellname,loading):
     """

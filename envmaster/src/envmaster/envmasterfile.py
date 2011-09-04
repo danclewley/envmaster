@@ -4,10 +4,11 @@ Handles the major module operations. envmastercmd.py
 just calls through to this.
 """
 import os
-from . import envmasterconf
-from . import envmasterexceptions
-from . import envmasterformat
-from .envmastershells import shellFromString
+import envmasterconf
+import envmasterexceptions
+import envmasterformat
+from envmastershells import shellFromString
+
 
 class EnvMasterFile(object):
     """
@@ -257,7 +258,7 @@ class EnvMasterFile(object):
             format.listAsColumns([msg])
 
 # hack to avoid circular import problem                               
-from .envmasterenv import EnvMasterEnv
+from envmasterenv import EnvMasterEnv
 
 if __name__ == '__main__':
     

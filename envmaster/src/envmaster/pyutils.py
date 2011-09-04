@@ -7,7 +7,7 @@ updated anyway due to the way EnvMaster updates
 the environment of the current process.
 """
 
-from . import envmasterfile
+import envmasterfile
 
 def load(*modnames):
     """

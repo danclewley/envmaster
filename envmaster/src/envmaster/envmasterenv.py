@@ -8,10 +8,10 @@ modules.
 """
 
 import os
-from .envmasterfile import EnvMasterFile
-from . import envmasterconf
-from . import envmasterexceptions
-from . import envmastershells
+from envmasterfile import EnvMasterFile
+import envmasterconf
+import envmasterexceptions
+import envmastershells
 
 def modname2pkgname(modname):
     """

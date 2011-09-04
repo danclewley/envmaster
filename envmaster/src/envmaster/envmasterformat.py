@@ -8,7 +8,7 @@ import math
 import fcntl
 import termios
 import struct
-from .envmasterconf import STDERR
+from envmasterconf import STDERR
 
 class EnvMasterFormat(object):
     """
