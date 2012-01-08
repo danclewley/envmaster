@@ -3,7 +3,7 @@ All the EnvMaster exceptions live in this module
 to make them accessible from all the modules.
 """
 
-class EnvMasterException(Exception):
+class EnvMasterException(SystemExit):
     """
     Base class of all the EnvMaster exceptions
     """
