@@ -39,6 +39,10 @@ class EnvMasterEnv(object):
         # mode as will only confuse people.
         if not self.isdisplay:
             self.setPath(modname,envmasterconf.LOADEDMODULESENV)
+
+        # by default prereq and conflict work on exact version (if supplied)
+        # overried with setVersionMatch()
+        self.cmpversion = EnvMasterEnv.cmpVersionEqual
         
     def makeVarName(self,suffix):
         """
@@ -200,6 +204,27 @@ class EnvMasterEnv(object):
         modfile = EnvMasterFile()
         modfile.runModule(self.shell,[old],False)
         modfile.runModule(self.shell,[new],True)
+
+    @staticmethod
+    def cmpVersionEqual(namedver,loadedver):
+        return cmp(namedver,loadedver) == 0
+
+    @staticmethod
+    def cmpVersionMinimum(namedver,loadedver):
+        return cmp(namedver,loadedver) < 0
+
+    @staticmethod
+    def cmpVersionMaximum(namedver,loadedver):
+        return cmp(namedver,loadedver) > 0
+
+    def setVersionMatch(self,cmpversion):
+        """
+        for prereq and conflict. Sets the version comparison method.
+        Pass in one of cmpVersionEqual (the default), cmpVersionMinimum,
+        cmpVersionMaximum or your own method that returns True when
+        the version match has succeded.
+        """
+        self.cmpversion = cmpversion
         
     def prereq(self,*modnames):
         """
@@ -208,14 +233,36 @@ class EnvMasterEnv(object):
         if self.isdisplay:
             # don't do anything - just display it
             self.shell.setPrereq(modnames)
-        else:
-            modfile = EnvMasterFile()
-            for mod in modnames:
-                fullmod, fullpath = modfile.getModule(mod)
-                if modfile.isLoaded(fullmod):
-                    return
-            # go to here so didn't find any modules already
-            # loaded
+        elif self.shell.loading:    # only do this when loading a module
+            loaded = os.getenv(envmasterconf.LOADEDMODULESENV)
+            if loaded is not None:
+                loaded = loaded.split(os.pathsep)
+                # go through each one they have stipulated
+                for mod in modnames:
+                    if mod.find(os.sep) != -1:
+                        # they reference a particular version
+                        (modname,modver) = mod.split(os.sep)
+                    else:
+                        modname = mod
+                        modver = None
+
+                    # go through the currently loaded ones
+                    for loadedmod in loaded:
+                        if loadedmod.find(os.sep) != -1:
+                            (loadedname,loadedver) = loadedmod.split(os.sep)
+                        else:
+                            loadedname = loadedmod
+                            loadedver = None
+
+                        # found the matching module
+                        if modname == loadedname:
+                            if modver is None or self.cmpversion(modver, loadedver):
+                                # no version match
+                                # or version match succeeded
+                                return
+                            else:
+                                break
+                            
             msg = 'None of the specified prerequisites (%s) required for package %s are loaded'
             msg = msg % (','.join(modnames),self.modname)
             raise envmasterexceptions.EnvMasterPrereqFailed(msg)
@@ -228,14 +275,38 @@ class EnvMasterEnv(object):
         if self.isdisplay:
             # don't do anything - just display it
             self.shell.setConflict(modnames)
-        else:
-            modfile = EnvMasterFile()
-            for mod in modnames:
-                fullmod, fullpath = modfile.getModule(mod)
-                if modfile.isLoaded(fullmod):
-                    msg = 'Module %s already loaded which is listed as a conflict for package %s'
-                    msg = msg % (mod,self.modname)
-                    raise envmasterexceptions.EnvMasterConflictFailed(msg)
+        elif self.shell.loading:    # only do this when loading a module
+            loaded = os.getenv(envmasterconf.LOADEDMODULESENV)
+            if loaded is not None:
+                loaded = loaded.split(os.pathsep)
+                # go through each one they have stipulated
+                for mod in modnames:
+                    if mod.find(os.sep) != -1:
+                        # they reference a particular version
+                        (modname,modver) = mod.split(os.sep)
+                    else:
+                        modname = mod
+                        modver = None
+
+                    # go through the currently loaded ones
+                    for loadedmod in loaded:
+                        if loadedmod.find(os.sep) != -1:
+                            (loadedname,loadedver) = loadedmod.split(os.sep)
+                        else:
+                            loadedname = loadedmod
+                            loadedver = None
+
+                        # found the matching module
+                        if modname == loadedname:
+                            if modver is None or self.cmpversion(modver, loadedver):
+                                # no version match
+                                # or version match succeeded
+                                msg = 'Module %s already loaded which is listed as a conflict for package %s'
+                                msg = msg % (modame,self.modname)
+                                raise envmasterexceptions.EnvMasterConflictFailed(msg)
+                            else:
+                                break
+
                     
     def whatis(self,desc):
         """
