@@ -60,6 +60,11 @@ class BaseShell(object):
         # have updated the environment of the current 
         # process with each change.
         self.cmds = {}
+        # we don't unset environment variables
+        # straight away in case another part of the 
+        # file needs it so we cache what needs
+        # to be deleted and do it at flush()
+        self.unset = []
         
     def addCmd(self,cmd,var):
         """
@@ -122,7 +127,8 @@ class BaseShell(object):
         if self.loading:
             os.environ[var] = value
         elif var in os.environ:
-            del os.environ[var]
+            # don't delete just yet in case we need it
+            self.unset.append(var)
 
     def setPath(self,fullpath,var):
         """
@@ -145,7 +151,13 @@ class BaseShell(object):
         """
         for var in sorted(self.cmds.keys()):
             envmasterconf.STDOUT.write(self.cmds[var] + '\n')
-        self.cmds = []
+        self.cmds = {}
+
+        # unset any environment variables
+        for var in self.unset:
+            if var in os.environ:
+                del os.environ[var]
+        self.unset = []
 
 class DisplayShell(BaseShell):
     """
@@ -370,8 +382,13 @@ class PythonSilentShell(BaseShell):
         """
         Do nothing as we should have already changed the 
         environment of the current (Python) process.
+        Just unset anything that needs to be unset
         """
-        pass
+        # unset any environment variables
+        for var in self.unset:
+            if var in os.environ:
+                del os.environ[var]
+        self.unset = []
 
 class RShell(BaseShell):
     """
