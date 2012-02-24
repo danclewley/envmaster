@@ -23,6 +23,9 @@ def shellFromString(shellname,loading):
     parameter determines is a module is being loaded
     or unloaded.
     """
+    if isinstance(shellname, BaseShell):
+        return shellname
+
     shellname = shellname.lower()
     if shellname == "bash":
         shell = BashShell(loading)
