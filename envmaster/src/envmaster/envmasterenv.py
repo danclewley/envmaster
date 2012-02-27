@@ -194,16 +194,22 @@ class EnvMasterEnv(object):
         have started the current load, but I think it is ok
         because it is a seperate transaction.
         """
-        modfile = EnvMasterFile()
-        modfile.runModule(self.shell,modnames,True)
+        if isinstance(self.shell,envmastershells.DisplayShell):
+            self.shell.setLoad(modnames)
+        else:
+            modfile = EnvMasterFile()
+            modfile.runModule(self.shell,modnames,True)
         
     def swap(self,old,new):
         """
         unload 'old' and then load 'new'
         """
-        modfile = EnvMasterFile()
-        modfile.runModule(self.shell,[old],False)
-        modfile.runModule(self.shell,[new],True)
+        if isinstance(self.shell,envmastershells.DisplayShell):
+            self.shell.setSwap(old,new)
+        else:
+            modfile = EnvMasterFile()
+            modfile.runModule(self.shell,[old],False)
+            modfile.runModule(self.shell,[new],True)
 
     @staticmethod
     def cmpVersionEqual(namedver,loadedver):

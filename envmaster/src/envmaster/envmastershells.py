@@ -228,6 +228,22 @@ class DisplayShell(BaseShell):
         self.cmdtable.append('whatis')
         self.cmdtable.append('')
         self.cmdtable.append(desc)
+
+    def setLoad(self,modnames):
+        """
+        Log that the module loads other modules
+        """
+        self.cmdtable.append('load')
+        self.cmdtable.append('')
+        self.cmdtable.append(' '.join(modnames))
+
+    def setSwap(self,mod1,mod2):
+        """
+        Log that the module swaps other modules
+        """
+        self.cmdtable.append('swap')
+        self.cmdtable.append('')
+        self.cmdtable.append(mod1 + ' ' + mod2)
         
     def flush(self):
         """
