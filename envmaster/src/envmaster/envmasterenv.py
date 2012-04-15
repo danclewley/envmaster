@@ -22,6 +22,8 @@ def modname2pkgname(modname):
     for environment variables that are created.
     """
     pkgname = modname.split(os.sep)[0]
+    # remove/replace problem characters - possibly others
+    pkgname = pkgname.replace('-','_')
     return pkgname.upper()
     
 class EnvMasterEnv(object):
