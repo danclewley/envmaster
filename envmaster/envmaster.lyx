@@ -109,19 +109,19 @@ First untar the distribution.
 \end_layout
 
 \begin_layout LyX-Code
-export EnvMaster_ROOT=/opt/EnvMaster
+export ENVMASTER_ROOT=/opt/EnvMaster
 \end_layout
 
 \begin_layout LyX-Code
-python setup.py install --prefix=$EnvMaster_ROOT
+python setup.py install --prefix=$ENVMASTER_ROOT
 \end_layout
 
 \begin_layout LyX-Code
-export PATH=$EnvMaster_ROOT/bin:$PATH
+export PATH=$ENVMASTER_ROOT/bin:$PATH
 \end_layout
 
 \begin_layout LyX-Code
-export PYTHONPATH=$EnvMaster_ROOT/lib/python2.X/site-packages
+export PYTHONPATH=$ENVMASTER_ROOT/lib/python2.X/site-packages
 \end_layout
 
 \begin_layout Standard
@@ -188,7 +188,7 @@ For tcsh users:
 \end_layout
 
 \begin_layout LyX-Code
-source $EnvMaster_ROOT/init/tcsh
+source $ENVMASTER_ROOT/init/tcsh
 \end_layout
 
 \begin_layout Standard
@@ -197,11 +197,11 @@ For bash users
 
 \begin_layout LyX-Code
 .
- $EnvMaster_ROOT/init/bash
+ $ENVMASTER_ROOT/init/bash
 \end_layout
 
 \begin_layout Standard
-Your $EnvMasterPATH variable needs to be set to the location of your module
+Your $ENVMASTERPATH variable needs to be set to the location of your module
  files.
  See Section 
 \begin_inset CommandInset ref
@@ -223,7 +223,7 @@ Once EnvMasters is initialised, the following commands will be available:
 \end_layout
 
 \begin_layout LyX-Code
-EnvMaster list
+envmaster list
 \end_layout
 
 \begin_layout Standard
@@ -231,7 +231,7 @@ Displays the currently loaded modules
 \end_layout
 
 \begin_layout LyX-Code
-EnvMaster avail
+envmaster avail
 \end_layout
 
 \begin_layout Standard
@@ -241,7 +241,7 @@ Displays all the modules that are available.
 \end_layout
 
 \begin_layout LyX-Code
-EnvMaster load module/version
+envmaster load module/version
 \end_layout
 
 \begin_layout Standard
@@ -250,7 +250,7 @@ Loads a module.
 \end_layout
 
 \begin_layout LyX-Code
-EnvMaster unload module/version
+envmaster unload module/version
 \end_layout
 
 \begin_layout Standard
@@ -258,7 +258,7 @@ Unloads a currently loaded module
 \end_layout
 
 \begin_layout LyX-Code
-EnvMaster disp module/version
+envmaster disp module/version
 \end_layout
 
 \begin_layout Standard
@@ -267,7 +267,7 @@ Displays what a module does (without loading it).
 \end_layout
 
 \begin_layout LyX-Code
-EnvMaster swap module/version module/version
+envmaster swap module/version module/version
 \end_layout
 
 \begin_layout Standard
@@ -279,7 +279,7 @@ Calling from Python
 \end_layout
 
 \begin_layout LyX-Code
-from EnvMaster import pyutils
+from envmaster import pyutils
 \end_layout
 
 \begin_layout Standard
@@ -298,9 +298,10 @@ name "sec:modfiles"
 
 \end_inset
 
-The $EnvMasterPATH variable must be set to a semi-colon separated list of
+The $ENVMASTERPATH variable must be set to a semi-colon separated list of
  directories.
  Each of these directories is searched for EnvMaster files.
+ This is usually in a separate tree from the software installation.
 \end_layout
 
 \begin_layout Subsection
@@ -308,7 +309,7 @@ Directory Layout
 \end_layout
 
 \begin_layout Standard
-Files under each directory in $EnvMasterPATH are treated as EnvMaster files
+Files under each directory in $ENVMASTERPATH are treated as EnvMaster files
  if the first line starts with '#%EnvMaster1.0'.
  There are two sorts of EnvMaster files: versioned and unversioned.
  Unversioned files sit at the root of the directory.
@@ -340,7 +341,7 @@ For example, for the directory layout below, there are 2 EnvMasters, one
 \end_layout
 
 \begin_layout LyX-Code
-$EnvMasterPATH=/opt/modules
+$ENVMASTERPATH=/opt/modules
 \end_layout
 
 \begin_layout LyX-Code
@@ -370,7 +371,7 @@ File contents
 \begin_layout Standard
 EnvMaster files are just fragments of Python so can contain any valid Python
  statements.
- There are a number of functions meaningful in a EnvMasters context.
+ There are a number of functions meaningful in a EnvMaster context.
  The following discusses the operations that are performed for each function
  when a module is loaded.
  It is worth noting the opposite is performed when modules are unloaded
@@ -599,7 +600,7 @@ Configuration
 \end_layout
 
 \begin_layout Standard
-The file $EnvMaster_ROOT/lib/python2.X/site-packages/EnvMaster/envmasterconf.py
+The file $ENVMASTER_ROOT/lib/python2.X/site-packages/EnvMaster/envmasterconf.py
  contains a number of settings.
  Changing this file will allow you to override almost any aspect of EnvMaster.
 \end_layout
