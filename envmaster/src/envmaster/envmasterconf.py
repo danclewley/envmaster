@@ -23,6 +23,8 @@ elif USE_64_LD_PATH_IF_AVAIL and sys.platform == 'sunos5':
     LIBPATH = 'LD_LIBRARY_PATH_64'
 elif USE_64_LD_PATH_IF_AVAIL and sys.platform == 'irix6-64':
     LIBPATH = 'LD_LIBRARY64_PATH'
+elif sys.platform == 'darwin':
+    LIBPATH = 'DYLD_LIBRARY_PATH'
 else:
     LIBPATH = 'LD_LIBRARY_PATH'
 # for man files
