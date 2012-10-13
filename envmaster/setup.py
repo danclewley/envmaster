@@ -9,7 +9,7 @@ from distutils.core import setup
 import glob
 
 setup(name='EnvMaster',
-      version='0.1.3',
+      version='0.1.4',
       description='Python implementation of Unix modules',
       author='Sam Gillingham',
       author_email='gillingham.sam@gmail.com',

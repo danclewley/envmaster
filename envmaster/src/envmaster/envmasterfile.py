@@ -96,6 +96,43 @@ class EnvMasterFile(object):
             raise envmasterexceptions.EnvMasterParseError(msg)
                 
         return(fullmodname,fullpath)
+
+    def getLoadedModule(self, modname):
+        """
+        Finds the currently loaded module
+        and the actual full path to the module file
+        """
+        loaded = os.getenv(envmasterconf.LOADEDMODULESENV)
+        if loaded is None:
+            return None, None
+        else:
+            if modname.find(os.sep) != -1:
+                askname, askversion = modname.split(os.sep)
+            else:
+                askname = modname
+                askversion = ""
+
+            for loadedname in loaded.split(os.pathsep):
+                if loadedname.find(os.sep) != -1:
+                    testname, testversion = loadedname.split(os.sep)
+                else:
+                    testname = loadedname
+                    testversion = ""
+
+                found = False
+                if askversion == "" and askname == testname:
+                    found = True
+                elif askname == testname and askversion == testversion:
+                    found = True
+
+                if found:
+                    if testversion != "":
+                        modname = testname + os.sep + testversion
+                    else:
+                        modname = testname
+                    return self.getModule(modname)
+            return None, None
+
         
     def isLoaded(self,fullmodname):
         """
@@ -140,7 +177,10 @@ class EnvMasterFile(object):
         
             # get the full module name with version
             # plus path
-            fullmod,path = self.getModule(modname)
+            if loading:
+                fullmod,path = self.getModule(modname)
+            else:
+                fullmod,path = self.getLoadedModule(modname)
             if fullmod is None:
                 msg = "Can't find Module '%s'" % modname
                 raise envmasterexceptions.EnvMasterNoModule(msg)
