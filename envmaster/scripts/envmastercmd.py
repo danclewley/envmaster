@@ -28,6 +28,7 @@ def printUsage():
     helplist.extend(['envmaster','load','mod1 <mod2...>','Load the specified module(s)'])
     helplist.extend(['envmaster','unload','mod1 <mod2...>','Unload the specified module(s)'])
     helplist.extend(['envmaster','swap','mod1 mod2','Unload mod1 and replace with mod2'])
+    helplist.extend(['envmaster','reload','mod1 <mod2...>','Reload with the default versio'])
     fmt.displayTable(helplist,4)
     
     sys.exit(1)
@@ -70,6 +71,11 @@ else:
             printUsage()
         modfile.runModule(shell,[modlist[0]],False)
         modfile.runModule(shell,[modlist[1]],True)
-        
+
+    elif action.startswith('reload'):
+        for mod in modlist:
+            modfile.runModule(shell, [mod], False)
+            modfile.runModule(shell, [mod], True)
+
     else:
         printUsage()
