@@ -182,7 +182,10 @@ class EnvMasterFile(object):
             else:
                 fullmod,path = self.getLoadedModule(modname)
             if fullmod is None:
-                msg = "Can't find Module '%s'" % modname
+                if loading:
+                    msg = "Can't find Module '%s'" % modname
+                else:
+                    msg = 'Module %s not currently loaded' % modname
                 raise envmasterexceptions.EnvMasterNoModule(msg)
             # only run if loading and not already loaded
             # or unload only if loaded
