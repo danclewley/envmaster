@@ -29,8 +29,13 @@ directly. Use the shellFromString() method.
 
 import os
 import sys
-import envmasterformat
-import envmasterconf
+if sys.version_info[0] < 3:
+    # keep compatibility with Python2.4
+    import envmasterformat
+    import envmasterconf
+else:
+    from . import envmasterformat
+    from . import envmasterconf
 
 def shellFromString(shellname,loading):
     """

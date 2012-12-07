@@ -24,7 +24,12 @@ import math
 import fcntl
 import termios
 import struct
-from envmasterconf import STDERR
+import sys
+if sys.version_info[0] < 3:
+    # keep compatibility with Python2.4
+    from envmasterconf import STDERR
+else:
+    from .envmasterconf import STDERR
 
 class EnvMasterFormat(object):
     """
@@ -102,7 +107,7 @@ class EnvMasterFormat(object):
 
         elif len(string) - amounttotrim > 5:
     
-            halfamounttoleave = (len(string) - amounttotrim - 3) / 2
+            halfamounttoleave = int((len(string) - amounttotrim - 3) / 2)
         
             firstpart = string[:halfamounttoleave]
             secondpart = string[-halfamounttoleave:]

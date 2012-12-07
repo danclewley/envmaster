@@ -24,10 +24,18 @@ modules.
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 import os
-from envmasterfile import EnvMasterFile
-import envmasterconf
-import envmasterexceptions
-import envmastershells
+import sys
+if sys.version_info[0] < 3:
+    # keep compatibility with Python2.4
+    from envmasterfile import EnvMasterFile
+    import envmasterconf
+    import envmasterexceptions
+    import envmastershells
+else:
+    from .envmasterfile import EnvMasterFile
+    from . import envmasterconf
+    from . import envmasterexceptions
+    from . import envmastershells
 
 def modname2pkgname(modname):
     """

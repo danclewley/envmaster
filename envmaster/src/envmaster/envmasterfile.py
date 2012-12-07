@@ -20,10 +20,18 @@ just calls through to this.
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 import os
-import envmasterconf
-import envmasterexceptions
-import envmasterformat
-from envmastershells import shellFromString
+import sys
+if sys.version_info[0] < 3:
+    # keep compatibility with Python2.4
+    import envmasterconf
+    import envmasterexceptions
+    import envmasterformat
+    from envmastershells import shellFromString
+else:
+    from . import envmasterconf
+    from . import envmasterexceptions
+    from . import envmasterformat
+    from .envmastershells import shellFromString
 
 
 class EnvMasterFile(object):
@@ -317,7 +325,10 @@ class EnvMasterFile(object):
             format.listAsColumns([msg])
 
 # hack to avoid circular import problem                               
-from envmasterenv import EnvMasterEnv
+if sys.version_info[0] < 3:
+    from envmasterenv import EnvMasterEnv
+else:
+    from .envmasterenv import EnvMasterEnv
 
 if __name__ == '__main__':
     
