@@ -23,13 +23,18 @@ the environment of the current process.
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-import envmasterfile
+import sys
+if sys.version_info[0] < 3:
+    # keep compatibility with Python2.4
+    from envmasterfile import EnvMasterFile
+else:
+    from .envmasterfile import EnvMasterFile
 
 def load(*modnames):
     """
     Load the specified module names
     """
-    modfile = envmasterfile.EnvMasterFile()
+    modfile = EnvMasterFile()
     modfile.runModule('pythonsilent',modnames,True)
 
 
@@ -37,5 +42,5 @@ def unload(*modnames):
     """
     Unload the specified module names
     """
-    modfile = envmasterfile.EnvMasterFile()
+    modfile = EnvMasterFile()
     modfile.runModule('pythonsilent',modnames,False)
