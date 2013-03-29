@@ -28,11 +28,10 @@ if sys.version_info[0] < 3:
     import envmasterformat
     from envmastershells import shellFromString
 else:
-    from . import envmasterconf
-    from . import envmasterexceptions
-    from . import envmasterformat
-    from .envmastershells import shellFromString
-
+    from envmaster import envmasterconf
+    from envmaster import envmasterexceptions
+    from envmaster import envmasterformat
+    from envmaster.envmastershells import shellFromString
 
 class EnvMasterFile(object):
     """
@@ -328,7 +327,7 @@ class EnvMasterFile(object):
 if sys.version_info[0] < 3:
     from envmasterenv import EnvMasterEnv
 else:
-    from .envmasterenv import EnvMasterEnv
+    from envmaster.envmasterenv import EnvMasterEnv
 
 if __name__ == '__main__':
     

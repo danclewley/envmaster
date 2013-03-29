@@ -32,10 +32,10 @@ if sys.version_info[0] < 3:
     import envmasterexceptions
     import envmastershells
 else:
-    from .envmasterfile import EnvMasterFile
-    from . import envmasterconf
-    from . import envmasterexceptions
-    from . import envmastershells
+    from envmaster.envmasterfile import EnvMasterFile
+    from envmaster import envmasterconf
+    from envmaster import envmasterexceptions
+    from envmaster import envmastershells
 
 def modname2pkgname(modname):
     """

@@ -29,7 +29,7 @@ if sys.version_info[0] < 3:
     # keep compatibility with Python2.4
     from envmasterconf import STDERR
 else:
-    from .envmasterconf import STDERR
+    from envmaster.envmasterconf import STDERR
 
 class EnvMasterFormat(object):
     """

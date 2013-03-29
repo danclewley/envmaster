@@ -34,8 +34,8 @@ if sys.version_info[0] < 3:
     import envmasterformat
     import envmasterconf
 else:
-    from . import envmasterformat
-    from . import envmasterconf
+    from envmaster import envmasterformat
+    from envmaster import envmasterconf
 
 def shellFromString(shellname,loading):
     """
