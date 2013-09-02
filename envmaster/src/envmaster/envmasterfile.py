@@ -177,11 +177,15 @@ class EnvMasterFile(object):
         file (has the sentinel)
         """
         sentinel = envmasterconf.ENVMASTERSENTINEL
-        fileobj = open(fullpath)
         # just read the number of bytes we
         # need to check
-        bufferstr = fileobj.read(len(sentinel))
-        fileobj.close()
+        try:
+            fileobj = open(fullpath)
+            bufferstr = fileobj.read(len(sentinel))
+            fileobj.close()
+        except:
+            # Set to empty string (will return false)
+            bufferstr = ''
         return sentinel == bufferstr
 
     def runModule(self,shell,modlist,loading):
