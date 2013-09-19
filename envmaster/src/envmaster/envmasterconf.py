@@ -76,7 +76,7 @@ ENVNAMES = {'BIN_SUFFIX':'BIN_PATH',   # for 'bin' files
 #==============================================
 # environment variable used to keep track
 # of which modules currently loaded
-LOADEDMODULESENV = 'LOADEDENVMASTER'
+LOADEDMODULESENV = 'ENVMASTERLOADED'
 
 # name of environment variable that contains
 # all directories to look for modules under
