@@ -327,6 +327,27 @@ class EnvMasterFile(object):
             msg = 'No EnvMasters currently loaded'
             format.listAsColumns([msg])
 
+    def reloadAllModules(self, shell):
+        """
+        Reload all the modules starting at the first one loaded
+        """
+        loaded = os.getenv(envmasterconf.LOADEDMODULESENV)
+        if loaded is not None and loaded != '':
+            loaded = loaded.split(os.pathsep)
+
+            # start from earliest
+            loaded.reverse()
+            for loadedname in loaded:
+                if loadedname.find(os.sep) != -1:
+                    testname, testversion = loadedname.split(os.sep)
+                else:
+                    testname = loadedname
+                    testversion = ""
+
+                self.runModule(shell, [testname], False)
+                self.runModule(shell, [testname], True)
+
+
 # hack to avoid circular import problem                               
 if sys.version_info[0] < 3:
     from envmasterenv import EnvMasterEnv
