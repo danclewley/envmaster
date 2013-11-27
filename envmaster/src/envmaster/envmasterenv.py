@@ -334,7 +334,7 @@ class EnvMasterEnv(object):
                                 # no version match
                                 # or version match succeeded
                                 msg = 'Module %s already loaded which is listed as a conflict for package %s'
-                                msg = msg % (modame,self.modname)
+                                msg = msg % (modname,self.modname)
                                 raise envmasterexceptions.EnvMasterConflictFailed(msg)
                             else:
                                 break
