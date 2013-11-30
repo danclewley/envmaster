@@ -339,6 +339,24 @@ class EnvMasterEnv(object):
                             else:
                                 break
 
+    def isLoading(self):
+        """
+        Returns True if we are currently loading a module
+        and not in display mode.
+        """
+        return self.shell.loading and not self.isdisplay
+
+    def isUnloading(self):
+        """
+        Returns True if we are currently unloading a module
+        """
+        return not self.shell.loading and not self.isdisplay
+
+    def isDisplay(self):
+        """
+        Are we in display mode?
+        """
+        return self.isdisplay
                     
     def whatis(self,desc):
         """
