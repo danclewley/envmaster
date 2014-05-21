@@ -239,15 +239,15 @@ class EnvMasterEnv(object):
 
     @staticmethod
     def cmpVersionEqual(namedver,loadedver):
-        return cmp(namedver,loadedver) == 0
+        return ((namedver > loadedver) - (namedver < loadedver)) == 0
 
     @staticmethod
     def cmpVersionMinimum(namedver,loadedver):
-        return cmp(namedver,loadedver) < 0
+        return ((namedver > loadedver) - (namedver < loadedver)) == 0
 
     @staticmethod
     def cmpVersionMaximum(namedver,loadedver):
-        return cmp(namedver,loadedver) > 0
+        return ((namedver > loadedver) - (namedver < loadedver)) == 0
 
     def setVersionMatch(self,cmpversion):
         """
