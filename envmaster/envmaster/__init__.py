@@ -1,10 +1,3 @@
-#!/usr/bin/env python
-"""
-The setup script for EnvMaster. Creates the module, installs
-the scripts and the init files. 
-Good idea to use 'install --prefix=/opt/xxxxx' so not installed
-with Python.
-"""
 # This file is part of EnvMaster
 # Copyright (C) 2012  Sam Gillingham
 #
@@ -21,17 +14,5 @@ with Python.
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-from distutils.core import setup
-import glob
-import envmaster
 
-setup(name='EnvMaster',
-      version=envmaster.ENVMASTER_VERSION,
-      description='Python implementation of Unix modules',
-      author='Sam Gillingham',
-      author_email='gillingham.sam@gmail.com',
-      packages=['envmaster'],
-      package_dir={'envmaster' : 'envmaster'},
-      scripts=['scripts/envmastercmd.py','scripts/mod2envmaster.py'],
-      data_files=[('init',glob.glob('init/*'))],
-     )
+ENVMASTER_VERSION = '0.1.6'
