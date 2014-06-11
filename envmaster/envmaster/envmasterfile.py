@@ -346,7 +346,23 @@ class EnvMasterFile(object):
 
                 self.runModule(shell, [testname], False)
                 self.runModule(shell, [testname], True)
+    
+    def unloadAllModules(self, shell):
+        """
+        Unload all the modules starting at the first one loaded
+        """
+        loaded = os.getenv(envmasterconf.LOADEDMODULESENV)
+        if loaded is not None and loaded != '':
+            loaded = loaded.split(os.pathsep)
 
+            for loadedname in loaded:
+                if loadedname.find(os.sep) != -1:
+                    testname, testversion = loadedname.split(os.sep)
+                else:
+                    testname = loadedname
+                    testversion = ""
+
+                self.runModule(shell, [testname], False)
 
 # hack to avoid circular import problem                               
 if sys.version_info[0] < 3:
