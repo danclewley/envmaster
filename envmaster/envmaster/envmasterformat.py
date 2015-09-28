@@ -40,8 +40,13 @@ class EnvMasterFormat(object):
         # get the size of the terminal
         # obviously only works on Unix, but then so does
         # the whole modules thing...
-        data = fcntl.ioctl(STDERR, termios.TIOCGWINSZ,'1234')
-        (self.textrows,self.textcols) = struct.unpack('hh', data)
+        try:
+            data = fcntl.ioctl(STDERR, termios.TIOCGWINSZ,'1234')
+            (self.textrows,self.textcols) = struct.unpack('hh', data)
+        except OSError:
+            # not a tty
+            self.textrows = 24
+            self.textcols = 80
         
     def displayTitle(self,title):
         """
