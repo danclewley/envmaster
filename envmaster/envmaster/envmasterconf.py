@@ -20,6 +20,7 @@ Only change these values if you know what you are doing.
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+import os
 import sys
 
 # Names of 'system' environment variables used
@@ -55,7 +56,7 @@ PYPATH = 'PYTHONPATH'
 SUBDIRS = {'BIN_SUBPATH':['bin'],# for executeable files
             'LIB_SUBPATH':['lib'],# for libraries
             'INCLUDE_SUBPATH':['include'],# for include files
-            'MAN_SUBPATH':['share/man','man'],# for man pages - tries 2 places
+            'MAN_SUBPATH':['share%sman' % os.sep,'man'],# for man pages - tries 2 places
             # for python modules - this is where setup.py install --prefix
             # puts the files under the dir specified.
             'PYTHON_SUBPATH':['lib/python%d.%d/site-packages' % (sys.version_info[0],sys.version_info[1])]}

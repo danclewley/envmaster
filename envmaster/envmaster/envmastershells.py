@@ -60,8 +60,8 @@ def shellFromString(shellname,loading):
         shell = PythonSilentShell(loading)
     elif shellname == "r":
         shell = RShell(loading)
-    elif shellname == "bob":
-        shell = BobShell(loading)
+    elif shellname == "dos":
+        shell = DOSShell(loading)
     else:
         raise ValueError("Unknown shell %s" % shellname)
 
@@ -333,34 +333,32 @@ class CShell(BaseShell):
         self.addCmd('setenv %s "%s"; ' % (var,fullpath),var)
         super(CShell,self).setPath(fullpath,var)
 
-class BobShell(BaseShell):
+class DOSShell(BaseShell):
     """
-    Ahh the lesser known bob shell. My personal 
-    favourite due to its brief but expressive 
-    syntax.
+    DOS/Windows format
     """
     def __init__(self,loading):
-        super(BobShell,self).__init__(loading)
+        super(DOSShell,self).__init__(loading)
     
     def setVar(self,value,var):
         """
-        Creates commands in bob format for 
+        Creates commands in DOS format for 
         setting/unsetting variables.        
         """
         if self.loading:
-            self.addCmd('bob bob%s "%s"\n' % (var,value),var)
+            self.addCmd('set "%s=%s"\n' % (var,value),var)
         else:
-            self.addCmd('unbob %s\n' % (var),var)
-        super(BobShell,self).setVar(value,var)
+            self.addCmd('set %s=\n' % (var),var)
+        super(DOSShell,self).setVar(value,var)
 
     def setPath(self,value,var):
         """
-        Creates command in bob format for setting
+        Creates command in DOS format for setting
         the new path
         """
         fullpath = self.findFullPath(value,var)
-        self.addCmd('bob bob%s "%s"\n' % (var,fullpath),var)
-        super(BashShell,self).setPath(fullpath,var)
+        self.addCmd('set "%s=%s"\n' % (var,fullpath),var)
+        super(DOSShell,self).setPath(fullpath,var)
 
 class PythonShell(BaseShell):
     """

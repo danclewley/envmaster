@@ -22,8 +22,13 @@ with Python.
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 from distutils.core import setup
+import sys
 import glob
 import envmaster
+
+scriptList = ['scripts/envmastercmd.py','scripts/mod2envmaster.py']
+if sys.platform == 'win32':
+    scriptList.append('scripts/envmaster.bat')
 
 setup(name='EnvMaster',
       version=envmaster.ENVMASTER_VERSION,
@@ -32,6 +37,6 @@ setup(name='EnvMaster',
       author_email='gillingham.sam@gmail.com',
       packages=['envmaster'],
       package_dir={'envmaster' : 'envmaster'},
-      scripts=['scripts/envmastercmd.py','scripts/mod2envmaster.py'],
+      scripts=scriptList,
       data_files=[('init',glob.glob('init/*'))],
      )

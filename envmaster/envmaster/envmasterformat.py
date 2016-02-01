@@ -21,8 +21,6 @@ and fills it up with text turned into columns or tables.
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 import math
-import fcntl
-import termios
 import struct
 import sys
 if sys.version_info[0] < 3:
@@ -38,15 +36,34 @@ class EnvMasterFormat(object):
     """
     def __init__(self):
         # get the size of the terminal
-        # obviously only works on Unix, but then so does
-        # the whole modules thing...
-        try:
-            data = fcntl.ioctl(STDERR, termios.TIOCGWINSZ,'1234')
-            (self.textrows,self.textcols) = struct.unpack('hh', data)
-        except OSError:
-            # not a tty
-            self.textrows = 24
-            self.textcols = 80
+        if sys.platform == 'win32':
+            # from https://gist.github.com/jtriley/1108174
+            from ctypes import windll, create_string_buffer
+            # stdin handle is -10
+            # stdout handle is -11
+            # stderr handle is -12
+            h = windll.kernel32.GetStdHandle(-12)
+            csbi = create_string_buffer(22)
+            res = windll.kernel32.GetConsoleScreenBufferInfo(h, csbi)
+            if res:
+                (bufx, bufy, curx, cury, wattr,
+                left, top, right, bottom,
+                maxx, maxy) = struct.unpack("hhhhHhhhhhh", csbi.raw)
+                self.textcols = right - left + 1
+                self.textrows = bottom - top + 1            
+            else:
+                self.textrows = 24
+                self.textcols = 80
+        else:
+            import fcntl
+            import termios
+            try:
+                data = fcntl.ioctl(STDERR, termios.TIOCGWINSZ,'1234')
+                (self.textrows,self.textcols) = struct.unpack('hh', data)
+            except OSError:
+                # not a tty
+                self.textrows = 24
+                self.textcols = 80
         
     def displayTitle(self,title):
         """
