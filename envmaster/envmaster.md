@@ -1,8 +1,8 @@
-EnvMaster {.titleHead}
----------
+EnvMaster
+----------
 
 
-### 1 Introduction {.sectionHead}
+### 1 Introduction
 
 This package is based on Modules
 ([http://modules.sourceforge.net/](http://modules.sourceforge.net/)).
@@ -15,9 +15,9 @@ EnvMaster attempts to address some of the limitations of the original
 design, not least its dependence on TCL. I have also tried to automate
 some of the more repetitive aspects of creating modules.
 
-### 2 Use {.sectionHead}
+### 2 Use
 
-#### 2.1 Installation {.subsectionHead}
+#### 2.1 Installation
 
 First untar the distribution. It is usually wisest to install separate
 from your Python distribution like this:
@@ -31,7 +31,7 @@ export PYTHONPATH=$ENVMASTER_ROOT/lib/pythonX.X/site-packages:$PYTHONPATH
 
 Where ’pythonX.X’ is the version of your Python distribution.
 
-##### 2.1.1 Where Python isn’t available (or is an older version) {.subsubsectionHead}
+##### 2.1.1 Where Python isn’t available (or is an older version)
 
 In the case where there is no Python available, and you need to load it
 with EnvMaster, a ’frozen’ version of EnvMaster needs to be prepared.
@@ -54,15 +54,14 @@ On a related note, it is best to load the newer version of Python first
 and separately from other Python packages, otherwise the wrong site
 packages directory will be used.
 
-#### 2.2 Initialisation {.subsectionHead}
+#### 2.2 Initialisation
 
 For tcsh users:
-
 ```
 source $ENVMASTER_ROOT/init/tcsh
+```
 
 For bash users
-
 ```
 source $ENVMASTER_ROOT/init/bash
 ```
@@ -70,7 +69,7 @@ source $ENVMASTER_ROOT/init/bash
 Your $ENVMASTERPATH variable needs to be set to the location of your
 module files. See Section [3](#x1-80003).
 
-#### 2.3 Commands {.subsectionHead}
+#### 2.3 Commands
 
 Once EnvMasters is initialised, the following commands will be
 available:
@@ -114,7 +113,7 @@ envmaster swap module/version module/version
 
 Switches between versions of a module.
 
-#### 2.4 Calling from Python {.subsectionHead}
+#### 2.4 Calling from Python
 
 ```
 from envmaster import pyutils
@@ -123,14 +122,14 @@ from envmaster import pyutils
 Currently there are 2 methods: pyutils.load() and pyutils.unload() which
 take a single string with a module name, or a list.
 
-### 3 How to write module files {.sectionHead}
+### 3 How to write module files
 
 The $ENVMASTERPATH variable must be set to a semi-colon separated list
 of directories. Each of these directories is searched for EnvMaster
 files. This is usually in a separate tree from the software
 installation.
 
-#### 3.1 Directory Layout {.subsectionHead}
+#### 3.1 Directory Layout
 
 Files under each directory in $ENVMASTERPATH are treated as EnvMaster
 files if the first line starts with ’\#%EnvMaster1.0’. There are two
@@ -163,7 +162,7 @@ $ENVMASTERPATH=/opt/modules
 /opt/modules/python/2.6.5
 ```
 
-#### 3.2 File contents {.subsectionHead}
+#### 3.2 File contents
 
 EnvMaster files are just fragments of Python so can contain any valid
 Python statements. There are a number of functions meaningful in a
@@ -262,7 +261,7 @@ Prepends path onto environment variable specified in varname. Designed
 to use with \$PATH and other environment variables that contain a list
 of paths.
 
-##### 3.2.1 Version files {.subsubsectionHead}
+##### 3.2.1 Version files
 
 If present, a file with the name of ’version.py’ in a versioned
 EnvMasters directory is parsed to choose which version is the default.
@@ -277,7 +276,7 @@ number that should be made the default. Here is an example:
 version = ’1.0.0’
 ```
 
-##### 3.2.2 Installation guide {.subsubsectionHead}
+##### 3.2.2 Installation guide
 
 When configuring software, use the prefix option to install the software
 in a uniquely versioned directory. For autoconf software:
@@ -294,12 +293,12 @@ python setup.py install --prefix=/opt/matplotlib/1.0.0
 
 Then create a EnvMaster file to match
 
-#### 3.3 mod2envmaster.py {.subsectionHead}
+#### 3.3 mod2envmaster.py
 
 Utility to ease transition from traditional modules to EnvMasters. More
 to come...
 
-#### 3.4 Configuration {.subsectionHead}
+#### 3.4 Configuration
 
 The file
 $ENVMASTER_ROOT/lib/pythonX.X/site-packages/EnvMaster/envmasterconf.py
