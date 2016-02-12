@@ -23,13 +23,14 @@ First untar the distribution. It is usually wisest to install separate
 from your Python distribution like this:
 
 ```
-export ENVMASTER_ROOT=/opt/EnvMaster
+export ENVMASTER_ROOT=/opt/envmaster
 python setup.py install --prefix=$ENVMASTER_ROOT
 export PATH=$ENVMASTER_ROOT/bin:$PATH
 export PYTHONPATH=$ENVMASTER_ROOT/lib/pythonX.X/site-packages:$PYTHONPATH
 ```
 
 Where ’pythonX.X’ is the version of your Python distribution.
+ENVMASTER_ROOT can be any directory you have write access to.
 
 ##### 2.1.1 Where Python isn’t available (or is an older version)
 
@@ -43,7 +44,7 @@ In the case where the system has an older version of Python available
 install (as above) with the system python (2.4), the site packages
 directory will be called $ENVMASTER_ROOT/lib/python2.4/site-packages.
 This is fine when using the system Python. However, if you were to load
-Python 2.6 with EnvMasters, it won’t be able to find it’s components
+Python 2.6 with EnvMaster, it won’t be able to find it’s components
 because it will be looking in
 $ENVMASTER_ROOT/lib/python2.6/site-packages. The best workaround is to
 create a link called $ENVMASTER_ROOT/lib/python2.6 pointing to
@@ -132,7 +133,7 @@ installation.
 #### 3.1 Directory Layout
 
 Files under each directory in $ENVMASTERPATH are treated as EnvMaster
-files if the first line starts with ’\#%EnvMaster1.0’. There are two
+files if the first line starts with `#%EnvMaster1.0`. There are two
 sorts of EnvMaster files: versioned and unversioned. Unversioned files
 sit at the root of the directory. A file here will show up as an
 available module. Using this type is not recommended because the whole
@@ -252,20 +253,20 @@ Sets the description of the modules. This is only seen when doing a
 module.setVar(value,varname,addpkgname=False)
 ```
 Sets the environment variable named in varname to value. If addpkgname
-is True, then MODNAME\_ is prepended to the varname.
+is True, then MODNAME_ is prepended to the varname.
 
 ```python
 module.setPath(path,varname)
 ```
 Prepends path onto environment variable specified in varname. Designed
-to use with \$PATH and other environment variables that contain a list
+to use with $PATH and other environment variables that contain a list
 of paths.
 
 ##### 3.2.1 Version files
 
 If present, a file with the name of ’version.py’ in a versioned
 EnvMasters directory is parsed to choose which version is the default.
-This file needs to start with ’\#%EnvMaster1.0’ and can contain any
+This file needs to start with `#%EnvMaster1.0` and can contain any
 number of Python statements. It need only contain one other line that
 sets the Python variable ’version’ to a string containing the version
 number that should be made the default. Here is an example:
