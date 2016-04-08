@@ -16,12 +16,4 @@ REM You should have received a copy of the GNU General Public License
 REM along with this program; if not, write to the Free Software
 REM Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-REM DOS invocation script for envmaster
-REM First we need a temp file to use
-REM seems we can't get the pid so make it unique
-set TMPFILE=%TMP%\mytempfile-%RANDOM%-%TIME:~6,5%.bat
-set envmastercmd=%~dp0\envmastercmd.py
-
-python %envmastercmd% dos %* > %TMPFILE%
-call %TMPFILE%
-del %TMPFILE%
+FOR /F "delims=" %%i IN ('call python %~dp0\envmastercmd.py dos %*') DO %%i
