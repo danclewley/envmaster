@@ -67,6 +67,11 @@ For bash users
 source $ENVMASTER_ROOT/init/bash
 ```
 
+For zsh users
+```
+source $ENVMASTER_ROOT/init/zsh
+```
+
 Your $ENVMASTERPATH variable needs to be set to the location of your
 module files. See Section [3](#x1-80003).
 

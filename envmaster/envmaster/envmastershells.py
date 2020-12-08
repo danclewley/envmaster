@@ -48,7 +48,7 @@ def shellFromString(shellname,loading):
         return shellname
 
     shellname = shellname.lower()
-    if shellname == "bash":
+    if shellname == "bash" or shellname == "zsh":
         shell = BashShell(loading)
     elif shellname == "disp":
         shell = DisplayShell(loading)
